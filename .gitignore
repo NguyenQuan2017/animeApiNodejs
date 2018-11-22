@@ -1,9 +1,0 @@
-node_modules/
-publics/
-.env
-.idea/misc.xml
-.idea/modules.xml
-.idea/pageworthapi.iml
-.idea/vcs.xml
-.idea/watcherTasks.xml
-.idea/workspace.xml
