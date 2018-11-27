@@ -87,7 +87,7 @@ async function updateManga(ctx) {
     });
 
     let manga = await Manga.updateManga(manga_id, body);
-
+        console.log(manga);
     if (manga) {
         manga.categories().attach(category_ids);
         manga.genres().attach(genre_ids);

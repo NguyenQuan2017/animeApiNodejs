@@ -2,22 +2,32 @@ require('dotenv').config();
 const knex = require('../dbs/db').knex;
 const bookshelf = require('../dbs/db').bookshelf;
 const slugify = require('slugify');
-const Manga = require('./Manga');
 
+
+var Manga = bookshelf.Model.extend({
+    tableName: 'mangas',
+    hasTimestamps: true,
+    idAttribute: 'manga_id',
+
+});
 var Genre = bookshelf.Model.extend({
     tableName: 'genres',
     hasTimestamps: true,
-    idAttribute: ['genre_id'],
-    manga: function() {
-        return this.belongsToMany(Manga.Manga, 'genre_manga','genre_id','manga_id');
+    idAttribute: 'genre_id',
+    mangas: function() {
+        return this.belongsToMany(Manga, 'genre_mangas','genre_id','manga_id', 'genre_id','manga_id');
     }
 });
 
+    function countGenre() {
+        return Genre.query(function (q) {
+            q.count('genre_id as genre')
+        }).fetch();
+    }
     function getListGenres() {
         return Genre.query(function(q) {
             q.orderBy('genre_id','DESC');
-            q.column('genre_id','genre_name','slug');
-        }).fetchAll();
+        }).withCount('mangas').get();
     }
 
     function getGenreById(genre_id) {
@@ -90,5 +100,6 @@ module.exports = {
     createGenre,
     showGenreById,
     updateGenreById,
-    destroyGenre
+    destroyGenre,
+    countGenre
 }

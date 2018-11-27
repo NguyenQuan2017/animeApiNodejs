@@ -14,5 +14,6 @@ router.get(process.env.BASE_URL + 'public/genre/:genre_id/manga', ClientCtrl.get
 router.get(process.env.BASE_URL + 'public/category/:category_id/name', ClientCtrl.getNameCategoryById);
 router.get(process.env.BASE_URL + 'public/manga/:manga_id/content', ClientCtrl.getContentMangaByMangaId);
 router.get(process.env.BASE_URL + 'public/chapter/:chapter_id/manga/:manga_id', ClientCtrl.getFileChapterManga);
+router.get(process.env.BASE_URL + 'public/manga/:manga_id/first/chapter', ClientCtrl.getFirstFileChapterMangaByMangaId);
 
 module.exports = router;

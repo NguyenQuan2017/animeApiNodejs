@@ -30,13 +30,17 @@ var Chapter = bookshelf.Model.extend({
     }
 });
 
+
+function countChapter() {
+    return Chapter.query(function (q) {
+        q.count('chapter_id as chapter')
+    }).fetch();
+}
+
 function getListChapter() {
     return Chapter.query(function (q) {
         q.orderBy('chapter_id', 'DESC');
-    }).fetchPage({
-        page: 1,
-        withRelated: ['manga','files']
-    })
+    }).fetchAll({withRelated: ['manga','files']})
 }
 
 function createChapter(body) {
@@ -58,12 +62,20 @@ function getFileChapterMangaByChapterIdMangaId(manga_id, chapter_id) {
     return Chapter.query(function(q) {
         q.where({chapter_id: chapter_id, manga_id:manga_id})
     }).fetch({withRelated: ['files','manga']});
+}
 
+function getFirstFileChapterMangaByMangaId(manga_id) {
+    return Chapter.query(function(q) {
+        q.where({ manga_id : manga_id});
+        q.orderBy('chapter','ASC');
+    }).fetch({withRelated: ['files','manga']})
 }
 
 module.exports = {
     Chapter,
     getListChapter,
     createChapter,
-    getFileChapterMangaByChapterIdMangaId
+    getFileChapterMangaByChapterIdMangaId,
+    getFirstFileChapterMangaByMangaId,
+    countChapter
 };

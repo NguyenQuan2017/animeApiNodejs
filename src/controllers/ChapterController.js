@@ -2,13 +2,9 @@ const Chapter = require('../Models/Chapter');
 const File = require('../Models/File');
 async function getListChapter(ctx) {
     let chapters = await Chapter.getListChapter();
-    console.log(chapters);
     return ctx.body = {
         status: 'ok',
-        data: {
-            chapters,
-            pagination: chapters.pagination
-        }
+        data: chapters
     }
 }
 

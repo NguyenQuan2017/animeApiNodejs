@@ -32,6 +32,11 @@ var Manga = bookshelf.Model.extend({
         return this.hasMany(Chapter.Chapter, 'manga_id','manga_id')
     }
 });
+    function countManga() {
+        return Manga.query(function (q) {
+            q.count('manga_id as manga')
+        }).fetch();
+    }
 
     function getListManga() {
         return Manga.query(function(q) {
@@ -62,10 +67,10 @@ var Manga = bookshelf.Model.extend({
             episode: body.episode,
         };
         return Manga.where({manga_id: manga_id}).fetch()
-            .then(manga => {
+            .then( manga => {
                 manga.categories().detach();
                 manga.genres().detach();
-                manga.save(data, {method: 'update'})
+                return manga.save(data, {method: 'update'})
             })
     }
 
@@ -113,5 +118,6 @@ module.exports = {
     getLatestManga,
     getMangaByCategoryId,
     getContentMangaByMangaId,
-    getMangaByGenreId
+    getMangaByGenreId,
+    countManga
 }

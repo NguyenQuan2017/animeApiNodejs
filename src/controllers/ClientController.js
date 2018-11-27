@@ -68,11 +68,23 @@ async function getFileChapterManga(ctx) {
     }
 }
 
+
+async function getFirstFileChapterMangaByMangaId(ctx) {
+    let manga_id = ctx.params.manga_id;
+    let files = await Chapter.getFirstFileChapterMangaByMangaId(manga_id);
+    if (files) {
+        return ctx.body = {
+            status: 'ok',
+            data: files
+        }
+    }
+}
 module.exports = {
     getLatestManga,
     getMangaByCategoryId,
     getNameCategoryById,
     getContentMangaByMangaId,
     getFileChapterManga,
-    getMangaByGenreId
+    getMangaByGenreId,
+    getFirstFileChapterMangaByMangaId
 };
